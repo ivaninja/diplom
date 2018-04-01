@@ -86,9 +86,11 @@ export class SceneComponent implements AfterViewInit {
         );
 
         // Set position and look at
-        this.camera.position.x = 10;
-        this.camera.position.y = 1000;
-        this.camera.position.z = 100;
+        this.camera.position.x = 300;
+        this.camera.position.y = 1600;
+        this.camera.position.z = 1000;
+        // this.camera.far = 6000;
+        // this.camera.lookAt(this.renderer.domElement);
     }
 
     private getAspectRatio(): number {
