@@ -125,31 +125,32 @@ export class SceneComponent implements AfterViewInit {
         Object.keys(this.billBoard).map((key, index) => {
             this.billBoard[key] = this.billBoard[key] > 1000 ? 1000: this.billBoard[key];
          });
-        const height = this.stoyka.geometry.parameters.height;
-        const width = this.stoyka.geometry.parameters.width;
-        const depth = this.stoyka.geometry.parameters.depth;
-        this.stoyka.geometry.parameters.height = this.billBoard.stoykaHeight;
-        this.stoyka.geometry.parameters.width =  this.billBoard.stoykaWidth;
-        this.stoyka.geometry.parameters.depth =  this.billBoard.stoykaWidth;
+        console.log(this.stoyka.geometry);
+        const height = (this.stoyka.geometry as any).parameters.height;
+        const width = (this.stoyka.geometry as any).parameters.width;
+        const depth = (this.stoyka.geometry as any).parameters.depth;
+        (this.stoyka.geometry as any).parameters.height = this.billBoard.stoykaHeight;
+        (this.stoyka.geometry as any).parameters.width =  this.billBoard.stoykaWidth;
+        (this.stoyka.geometry as any).parameters.depth =  this.billBoard.stoykaWidth;
         this.stoyka.position.setY(this.billBoard.stoykaHeight/2);
         let scaleFactorY = this.billBoard.stoykaHeight /height;
         let scaleFactorX = this.billBoard.stoykaWidth /width;
         let scaleFactorZ = scaleFactorX;
         // Рассчеты для нижней части
-        const BottomPartHeight = this.BottomPart.geometry.parameters.height;
-        this.BottomPart.geometry.parameters.height = BottomPartHeight * scaleFactorY;
+        const BottomPartHeight = (this.stoyka.geometry as any).parameters.height;
+        (this.stoyka.geometry as any).parameters.height = BottomPartHeight * scaleFactorY;
         const bottomPartYposition = BottomPartHeight * scaleFactorY / 2;
         this.BottomPart.geometry.scale(scaleFactorX, scaleFactorY, scaleFactorZ);
         this.BottomPart.position.setY(bottomPartYposition);
         // this.BottomPart.position.setY( this.BottomPart.geometry.height /2);
         // Расчеты для верхней части
-        const bilboardHeigth = this.TopPart.geometry.parameters.height;
-        const bilboardWidth = this.TopPart.geometry.parameters.width;
-        const bilboardDepth = this.TopPart.geometry.parameters.depth;
+        const bilboardHeigth = (this.TopPart.geometry as any).parameters.height;
+        const bilboardWidth = (this.TopPart.geometry as any).parameters.width;
+        const bilboardDepth = (this.TopPart.geometry as any).parametersdepth;
 
-        this.TopPart.geometry.parameters.height =  this.billBoard.bilboardHeigth;
-        this.TopPart.geometry.parameters.width =  this.billBoard.bilboardWidth;
-        this.TopPart.geometry.parameters.depth =  this.billBoard.bilboardDepth;
+        (this.TopPart.geometry as any).parameters.height =  this.billBoard.bilboardHeigth;
+        (this.TopPart.geometry as any).parameters.width =  this.billBoard.bilboardWidth;
+        (this.TopPart.geometry as any).parameters.depth =  this.billBoard.bilboardDepth;
 
         this.TopPart.position.setY(this.billBoard.stoykaHeight - this.billBoard.bilboardHeigth /2);
         this.TopPart.position.setZ(this.billBoard.stoykaWidth / 2 + this.billBoard.bilboardDepth /2)  ;
