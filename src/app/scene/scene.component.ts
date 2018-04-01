@@ -10,6 +10,8 @@ class BillBoard {
     bilboardWidth:number;
     bilboardHeigth: number;
     bilboardDepth: number;
+    boardCarcas: boolean;
+    stoykaCarcas: boolean;
     constructor(StoykaWidth, StoykaHeight, StoykaDepth, BilboardWidth, BilboardHeigth, BilboardDepth){
         this.stoykaDepth = StoykaDepth;
         this.stoykaHeight = StoykaHeight;
@@ -127,6 +129,9 @@ export class SceneComponent implements AfterViewInit {
         Object.keys(this.billBoard).map((key, index) => {
             this.billBoard[key] = this.billBoard[key] > 1000 ? 1000: this.billBoard[key];
          });
+        this.stoyka.material = new THREE.MeshBasicMaterial( {color: 0x00ff00, wireframe:this.billBoard.stoykaCarcas} );
+        this.BottomPart.material = new THREE.MeshBasicMaterial( {color: 0xffff00, wireframe:this.billBoard.stoykaCarcas} );
+        this.TopPart.material = new THREE.MeshBasicMaterial( {color: 0xffff00, wireframe:this.billBoard.boardCarcas} );
         console.log(this.stoyka.geometry);
         const height = (this.stoyka.geometry as any).parameters.height;
         const width = (this.stoyka.geometry as any).parameters.width;
