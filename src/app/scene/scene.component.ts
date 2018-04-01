@@ -139,8 +139,8 @@ export class SceneComponent implements AfterViewInit {
         let scaleFactorX = this.billBoard.stoykaWidth /width;
         let scaleFactorZ = scaleFactorX;
         // Рассчеты для нижней части
-        const BottomPartHeight = (this.stoyka.geometry as any).parameters.height;
-        (this.stoyka.geometry as any).parameters.height = BottomPartHeight * scaleFactorY;
+        const BottomPartHeight = (this.BottomPart.geometry as any).parameters.height;
+        (this.BottomPart.geometry as any).parameters.height = BottomPartHeight * scaleFactorY;
         const bottomPartYposition = BottomPartHeight * scaleFactorY / 2;
         this.BottomPart.geometry.scale(scaleFactorX, scaleFactorY, scaleFactorZ);
         this.BottomPart.position.setY(bottomPartYposition);
@@ -148,7 +148,7 @@ export class SceneComponent implements AfterViewInit {
         // Расчеты для верхней части
         const bilboardHeigth = (this.TopPart.geometry as any).parameters.height;
         const bilboardWidth = (this.TopPart.geometry as any).parameters.width;
-        const bilboardDepth = (this.TopPart.geometry as any).parametersdepth;
+        const bilboardDepth = (this.TopPart.geometry as any).parameters.depth;
 
         (this.TopPart.geometry as any).parameters.height =  this.billBoard.bilboardHeigth;
         (this.TopPart.geometry as any).parameters.width =  this.billBoard.bilboardWidth;

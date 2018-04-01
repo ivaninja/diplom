@@ -1,10 +1,15 @@
 
+<label for="stoykaHeight">Высота стойки</label>
 <input type="number" min="1" max="1000" style="margin: 10px;" placeholder="Высота стойки" [(ngModel)]="billBoard.stoykaHeight"  />
+<label for="stoykaWidth">Ширина стойки</label>
 <input type="number" min="1" style="margin: 10px;" placeholder="Ширина стойки" [(ngModel)]="billBoard.stoykaWidth"/>
 <!-- <input type="number" style="margin: 10px;" placeholder="Глубина стойки" [(ngModel)]="billBoard.stoykaDepth"/> -->
-<div>   
+<div>  
+    <label for="bilboardHeigth">Высота билборда</label> 
     <input type="number" min="1" max="1000"  style="margin: 10px;" placeholder="Высота билборда" [(ngModel)]="billBoard.bilboardHeigth"  />
+    <label for="bilboardWidth">Ширина билборда</label> 
     <input type="number" min="1" max="1000"  style="margin: 10px;" placeholder="Ширина билбоарда" [(ngModel)]="billBoard.bilboardWidth"/>
+    <label for="bilboardDepth">Глубина билборда</label> 
     <input type="number" min="1" max="1000"  style="margin: 10px;" placeholder="Глубина билбоарда" [(ngModel)]="billBoard.bilboardDepth"/>
 </div>
 
