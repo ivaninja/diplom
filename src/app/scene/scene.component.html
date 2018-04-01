@@ -1,5 +1,16 @@
-<button>
+
+<input type="number" min="1" max="1000" style="margin: 10px;" placeholder="Высота стойки" [(ngModel)]="billBoard.stoykaHeight"  />
+<input type="number" min="1" style="margin: 10px;" placeholder="Ширина стойки" [(ngModel)]="billBoard.stoykaWidth"/>
+<!-- <input type="number" style="margin: 10px;" placeholder="Глубина стойки" [(ngModel)]="billBoard.stoykaDepth"/> -->
+<div>   
+    <input type="number" min="1" max="1000"  style="margin: 10px;" placeholder="Высота билборда" [(ngModel)]="billBoard.bilboardHeigth"  />
+    <input type="number" min="1" max="1000"  style="margin: 10px;" placeholder="Ширина билбоарда" [(ngModel)]="billBoard.bilboardWidth"/>
+    <input type="number" min="1" max="1000"  style="margin: 10px;" placeholder="Глубина билбоарда" [(ngModel)]="billBoard.bilboardDepth"/>
+</div>
+
+<button (click)="changeSize()">
     click
 </button>
+
 <canvas #canvas (mousedown)="onMouseDown($event)" (mouseup)="onMouseUp($event)">
-</canvas>
+</canvas> 
