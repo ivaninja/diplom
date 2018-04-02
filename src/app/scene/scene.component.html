@@ -3,18 +3,84 @@
 <input (change)= "changeSize()" type="number" min="1" max="1000" style="margin: 10px;" placeholder="Высота стойки" [(ngModel)]="billBoard.stoykaHeight"  />
 <label for="stoykaWidth">Ширина стойки</label>
 <input (change)= "changeSize()" type="number" min="1" style="margin: 10px;" placeholder="Ширина стойки" [(ngModel)]="billBoard.stoykaWidth"/>
-<label for="stoykaCarcas">Каркас</label>
-<input (change)= "changeSize()" (change)= "changeSize()"type="checkbox" [(ngModel)]="billBoard.stoykaCarcas" id="">
+<label for="selectFloorMaterial">Материал пола</label>
+<select (change)="changeFloor()" [(ngModel)]="billBoard.floorMaterial" name="selectFloorMaterial" id="">
+    <option value="plane">
+        plane
+    </option>
+    <option value="floor">
+         floor1
+    </option>
+    <option value="floor2">
+         floor2
+    </option>
+    <option value="floor3">
+        floor3
+    </option>
+</select>
+<label for="selectFloorMaterial">Logo</label>
+<select (change)="changeMaterial()" [(ngModel)]="billBoard.logo" name="selectLogoMaterial" id="">
+    <option value="plane">
+        plane
+    </option>
+    <option value="logo">
+        logo1
+    </option>
+    <option value="logo2">
+        logo2
+    </option>
+    <option value="logo3">
+        logo3
+    </option>
+    <option value="logo4">
+        logo4
+    </option>
+</select>
+<!-- <label for="stoykaCarcas">Каркас</label> -->
+<!-- <input (change)= "changeSize()" (change)= "changeSize()"type="checkbox" [(ngModel)]="billBoard.stoykaCarcas" id=""> -->
 <!-- <input (change)= "changeSize()"type="number" style="margin: 10px;" placeholder="Глубина стойки" [(ngModel)]="billBoard.stoykaDepth"/> -->
 <div>  
+    <label for="selectMaterial">Материал Билбоарда</label>
+    <select (change)="changeMaterial()" [(ngModel)]="billBoard.material" name="selectMaterial" id="">
+        <option value="metal1">
+             metal1
+        </option>
+        <option value="metal2">
+         metal2
+        </option>
+        <option value="metal3">
+             metal3
+        </option>
+        <option value="metal4">
+            metal4
+        </option>
+        <option value="metal5">
+            metal5
+        </option>
+        <option value="metal6">
+            metal6
+        </option>
+        <option value="metal7">
+            metal7
+        </option>
+        <option value="metal8">
+            metal8
+        </option>
+        <option value="metal9">
+            metal9
+        </option>
+        <option value="carcas">
+             carcas
+        </option>
+    </select>
     <label for="bilboardHeigth">Высота билборда</label> 
     <input (change)= "changeSize()"type="number" min="1" max="1000"  style="margin: 10px;" placeholder="Высота билборда" [(ngModel)]="billBoard.bilboardHeigth"  />
     <label for="bilboardWidth">Ширина билборда</label> 
     <input (change)= "changeSize()"type="number" min="1" max="1000"  style="margin: 10px;" placeholder="Ширина билбоарда" [(ngModel)]="billBoard.bilboardWidth"/>
     <label for="bilboardDepth">Глубина билборда</label> 
     <input (change)= "changeSize()"type="number" min="1" max="1000"  style="margin: 10px;" placeholder="Глубина билбоарда" [(ngModel)]="billBoard.bilboardDepth"/>
-    <label for="stoykaCarcas">Каркас</label>
-    <input (change)= "changeSize()"type="checkbox" [(ngModel)]="billBoard.boardCarcas" id="">
+    <!-- <label for="stoykaCarcas">Каркас</label> -->
+    <!-- <input (change)= "changeSize()"type="checkbox" [(ngModel)]="billBoard.boardCarcas" id=""> -->
 </div>
 
 <!-- <button (click)="changeSize()">

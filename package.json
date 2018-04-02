@@ -28,7 +28,7 @@
     "core-js": "^2.4.1",
     "express": "^4.16.3",
     "rxjs": "^5.1.0",
-    "three": "0.88.0",
+    "three": "^0.91.0",
     "typescript": "2.4.2",
     "zone.js": "^0.8.4"
   },
@@ -39,7 +39,7 @@
     "@types/jasmine": "~2.8.2",
     "@types/jasminewd2": "~2.0.2",
     "@types/node": "8.0.53",
-    "@types/three": "0.84.30",
+    "@types/three": "^0.91.3",
     "codelyzer": "~4.0.1",
     "enhanced-resolve": "^3.3.0",
     "jasmine-core": "~2.8.0",
