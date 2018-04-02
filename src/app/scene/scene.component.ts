@@ -74,7 +74,7 @@ export class SceneComponent implements AfterViewInit {
     this.scene.add(new THREE.AxesHelper(200));
     var loader = new THREE.ColladaLoader();
     var light = new THREE.PointLight(0xffffff);
-    light.position.set(0, 250, 0);
+    light.position.set(0, 2000, -10);
     this.scene.add(light);
     loader.load("assets/model/multimaterial.dae", this.onModelLoadingCompleted);
   }
@@ -86,12 +86,12 @@ export class SceneComponent implements AfterViewInit {
   }
 
   private createLight() {
-    var light = new THREE.PointLight(0xffffff, 1, 1000);
-    light.position.set(0, 0, 100);
-    this.scene.add(light);
+    // var light = new THREE.PointLight(0xffffff, 1, 1000);
+    // light.position.set(0, 0, 100);
+    // this.scene.add(light);
 
     var light = new THREE.PointLight(0xffffff, 1, 1000);
-    light.position.set(0, 0, -100);
+    light.position.set(1000, 2000, 1000);
     this.scene.add(light);
   }
 
@@ -335,7 +335,7 @@ export class SceneComponent implements AfterViewInit {
     console.log();
   }
   changeFloor() {
-    if (this.billBoard.material == "plane") {
+    if (this.billBoard.floorMaterial == "plane") {
       this.Floor.material = new THREE.MeshBasicMaterial({
         color: 0xcccccc
       });
