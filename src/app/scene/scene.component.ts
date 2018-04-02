@@ -147,6 +147,7 @@ export class SceneComponent implements AfterViewInit {
       if (this.billBoard[key]) {
         this.billBoard[key] =
           this.billBoard[key] > 1000 ? 1000 : this.billBoard[key];
+        this.billBoard[key] = this.billBoard[key] < 0 ? 1 : this.billBoard[key];  
       } else this.billBoard[key] = 1;
     });
     // this.stoyka.material = new THREE.MeshBasicMaterial({
