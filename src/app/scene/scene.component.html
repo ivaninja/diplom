@@ -1,88 +1,129 @@
+<div class="row">
+<div class="col-md-2">
+    <div class="form-group">
+        <label for="stoykaHeight">Высота стойки</label>
+        
+        <input class="form-control" (change)= "changeSize()" type="number" min="1" max="1000" style="margin: 10px;" placeholder="Высота стойки" [(ngModel)]="billBoard.stoykaHeight"  />
+    </div>
+    <div class="form-group">
+        <label for="stoykaWidth">Ширина стойки</label>
+        <input class="form-control" (change)= "changeSize()" type="number" min="1" style="margin: 10px;" placeholder="Ширина стойки" [(ngModel)]="billBoard.stoykaWidth"/>
+    </div>
+    <div class="form-group">
+        <label for="selectFloorMaterial">Материал пола</label>
+        <select class="form-control" (change)="changeFloor()" [(ngModel)]="billBoard.floorMaterial" name="selectFloorMaterial" id="">
+            <option value="plane">
+                plane
+            </option>
+            <option value="floor">
+                 floor1
+            </option>
+            <option value="floor2">
+                 floor2
+            </option>
+            <option value="floor3">
+                floor3
+            </option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="selectFloorMaterial">Logo</label>
+        <select class="form-control" (change)="changeMaterial()" [(ngModel)]="billBoard.logo" name="selectLogoMaterial" id="">
+            <option value="plane">
+                plane
+            </option>
+            <option value="logo">
+                logo1
+            </option>
+            <option value="logo2">
+                logo2
+            </option>
+            <option value="logo3">
+                logo3
+            </option>
+            <option value="logo4">
+                logo4
+            </option>
+        </select>
+    </div>
+</div>
 
-<label for="stoykaHeight">Высота стойки</label>
-<input (change)= "changeSize()" type="number" min="1" max="1000" style="margin: 10px;" placeholder="Высота стойки" [(ngModel)]="billBoard.stoykaHeight"  />
-<label for="stoykaWidth">Ширина стойки</label>
-<input (change)= "changeSize()" type="number" min="1" style="margin: 10px;" placeholder="Ширина стойки" [(ngModel)]="billBoard.stoykaWidth"/>
-<label for="selectFloorMaterial">Материал пола</label>
-<select (change)="changeFloor()" [(ngModel)]="billBoard.floorMaterial" name="selectFloorMaterial" id="">
-    <option value="plane">
-        plane
-    </option>
-    <option value="floor">
-         floor1
-    </option>
-    <option value="floor2">
-         floor2
-    </option>
-    <option value="floor3">
-        floor3
-    </option>
-</select>
-<label for="selectFloorMaterial">Logo</label>
-<select (change)="changeMaterial()" [(ngModel)]="billBoard.logo" name="selectLogoMaterial" id="">
-    <option value="plane">
-        plane
-    </option>
-    <option value="logo">
-        logo1
-    </option>
-    <option value="logo2">
-        logo2
-    </option>
-    <option value="logo3">
-        logo3
-    </option>
-    <option value="logo4">
-        logo4
-    </option>
-</select>
 <!-- <label for="stoykaCarcas">Каркас</label> -->
 <!-- <input (change)= "changeSize()" (change)= "changeSize()"type="checkbox" [(ngModel)]="billBoard.stoykaCarcas" id=""> -->
 <!-- <input (change)= "changeSize()"type="number" style="margin: 10px;" placeholder="Глубина стойки" [(ngModel)]="billBoard.stoykaDepth"/> -->
-<div>  
-    <label for="selectMaterial">Материал Билбоарда</label>
-    <select (change)="changeMaterial()" [(ngModel)]="billBoard.material" name="selectMaterial" id="">
-        <option value="metal1">
-             metal1
-        </option>
-        <option value="metal2">
-         metal2
-        </option>
-        <option value="metal3">
-             metal3
-        </option>
-        <option value="metal4">
-            metal4
-        </option>
-        <option value="metal5">
-            metal5
-        </option>
-        <option value="metal6">
-            metal6
-        </option>
-        <option value="metal7">
-            metal7
-        </option>
-        <option value="metal8">
-            metal8
-        </option>
-        <option value="metal9">
-            metal9
-        </option>
-        <option value="carcas">
-             carcas
-        </option>
-    </select>
-    <label for="bilboardHeigth">Высота билборда</label> 
-    <input (change)= "changeSize()"type="number" min="1" max="1000"  style="margin: 10px;" placeholder="Высота билборда" [(ngModel)]="billBoard.bilboardHeigth"  />
-    <label for="bilboardWidth">Ширина билборда</label> 
-    <input (change)= "changeSize()"type="number" min="1" max="1000"  style="margin: 10px;" placeholder="Ширина билбоарда" [(ngModel)]="billBoard.bilboardWidth"/>
-    <label for="bilboardDepth">Глубина билборда</label> 
-    <input (change)= "changeSize()"type="number" min="1" max="1000"  style="margin: 10px;" placeholder="Глубина билбоарда" [(ngModel)]="billBoard.bilboardDepth"/>
+<div class="col-md-2">
+    <div class="form-group"> 
+        <label for="selectMaterial">Материал Билбоарда</label>
+        <select class="form-control" (change)="changeMaterial()" [(ngModel)]="billBoard.material" name="selectMaterial" id="">
+            <option value="metal1">
+                metal1
+            </option>
+            <option value="metal2">
+            metal2
+            </option>
+            <option value="metal3">
+                metal3
+            </option>
+            <option value="metal4">
+                metal4
+            </option>
+            <option value="metal5">
+                metal5
+            </option>
+            <option value="metal6">
+                metal6
+            </option>
+            <option value="metal7">
+                metal7
+            </option>
+            <option value="metal8">
+                metal8
+            </option>
+            <option value="metal9">
+                metal9
+            </option>
+            <option value="carcas">
+                carcas
+            </option>
+        </select>
+    </div>
+    <div class="form-group"> 
+        <label for="bilboardHeigth">Высота билборда</label> 
+        <input class="form-control" (change)= "changeSize()"type="number" min="1" max="1000"  style="margin: 10px;" placeholder="Высота билборда" [(ngModel)]="billBoard.bilboardHeigth"  />
+    </div>
+    <div class="form-group"> 
+        <label for="bilboardWidth">Ширина билборда</label> 
+        <input class="form-control" (change)= "changeSize()"type="number" min="1" max="1000"  style="margin: 10px;" placeholder="Ширина билбоарда" [(ngModel)]="billBoard.bilboardWidth"/>
+    </div>
+    <div class="form-group"> 
+        <label for="bilboardDepth">Глубина билборда</label> 
+        <input class="form-control" (change)= "changeSize()"type="number" min="1" max="1000"  style="margin: 10px;" placeholder="Глубина билбоарда" [(ngModel)]="billBoard.bilboardDepth"/>
+    </div>
     <!-- <label for="stoykaCarcas">Каркас</label> -->
     <!-- <input (change)= "changeSize()"type="checkbox" [(ngModel)]="billBoard.boardCarcas" id=""> -->
 </div>
-
+<div class="col-md-2">
+    F = 0.5 p V <sup>2</sup> S cosA  = <b>{{fWind.calculate()}}</b>
+    <div class="form-group"> 
+         <label for="">Густота воздуха(1.2кг/м <sup>3</sup></label>
+        <input [(ngModel)]="fWind.P"  class="form-control"/>
+    </div>
+    <div class="form-group"> 
+        <label for="">Скорость воздуха</label>
+        <input [(ngModel)]="fWind.V" class="form-control"/>
+    </div>
+    <div class="form-group"> 
+        <label for="">Площадь Щита: <b>{{billBoard.getBoardArea()}} м<sup >2</sup></b></label>
+        <!-- <input disabled class="form-control" /> -->
+    </div>
+    <div class="form-group"> 
+        <label for="">Угол между нормалью до поверхности щита и скоростью ветра</label>
+        <input [(ngModel)]="fWind.A" class="form-control"/>
+    </div>
+    
+   
+</div>
+</div>
 <!-- <button (click)="changeSize()">
     click
 </button> -->

@@ -15,6 +15,9 @@ class BillBoard {
   material: string;
   floorMaterial: string;
   logo:string;
+  getBoardArea(){
+    return this.bilboardWidth * this.bilboardHeigth;
+  }
   constructor(
     StoykaWidth,
     StoykaHeight,
@@ -36,6 +39,26 @@ class BillBoard {
     this.logo = "plane";
   }
 }
+class Fwind {
+  P: number //густота
+  V: number // скорость ветра
+  S: number // площадь
+  A: number // угол 
+  constructor(_P,_V,_S,_A){
+    this.P = _P;
+    this.V = _V;
+    this.S = _S;
+    this.A = _A;
+  }
+  calculate(){
+    console.log(Math.cos(this.toRadians(this.A)))
+    return (0.5 * this.P * this.V**2) * this.S * Math.cos(this.toRadians(this.A))
+  }
+  toRadians (angle) {
+    console.log(angle * (Math.PI / 180));
+    return Number((angle * (Math.PI / 180)).toFixed(2));
+  }
+}
 @Component({
   selector: "scene",
   templateUrl: "./scene.component.html",
@@ -50,6 +73,7 @@ export class SceneComponent implements AfterViewInit {
   BottomPart: THREE.Mesh;
   TopPart: THREE.Mesh;
   Floor: THREE.Mesh;
+  fWind: Fwind;
   public fieldOfView: number = 60;
   public nearClippingPane: number = 1;
   public farClippingPane: number = 5000;
@@ -62,6 +86,7 @@ export class SceneComponent implements AfterViewInit {
   constructor() {
     this.render = this.render.bind(this);
     this.billBoard = new BillBoard(200, 1000, 200, 600, 200, 50);
+    this.fWind = new Fwind(1.2,300,this.billBoard.getBoardArea(),90);
     this.onModelLoadingCompleted = this.onModelLoadingCompleted.bind(this);
   }
 
