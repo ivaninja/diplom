@@ -51,11 +51,15 @@ class Fwind {
     this.A = _A;
   }
   calculate(){
-    console.log(Math.cos(this.toRadians(this.A)))
-    return (0.5 * this.P * this.V**2) * this.S * Math.cos(this.toRadians(this.A))
+    console.log(0.5 * this.P * this.V**2);
+    console.log(Math.cos(this.toRadians(this.A)).toFixed(2));
+    return (0.5 * this.P * this.V**2 * this.S * Number(Math.cos(this.toRadians(this.A)).toFixed(2))).toFixed(2);
+  }
+  calculateMoment(stoykaHeight){
+      return Number(this.calculate()) * stoykaHeight;
   }
   toRadians (angle) {
-    console.log(angle * (Math.PI / 180));
+    // console.log(angle * (Math.PI / 180));
     return Number((angle * (Math.PI / 180)).toFixed(2));
   }
 }
@@ -86,7 +90,7 @@ export class SceneComponent implements AfterViewInit {
   constructor() {
     this.render = this.render.bind(this);
     this.billBoard = new BillBoard(200, 1000, 200, 600, 200, 50);
-    this.fWind = new Fwind(1.2,300,this.billBoard.getBoardArea(),90);
+    this.fWind = new Fwind(1.2,300,this.billBoard.getBoardArea(),45);
     this.onModelLoadingCompleted = this.onModelLoadingCompleted.bind(this);
   }
 

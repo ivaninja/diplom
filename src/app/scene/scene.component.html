@@ -103,9 +103,17 @@
     <!-- <input (change)= "changeSize()"type="checkbox" [(ngModel)]="billBoard.boardCarcas" id=""> -->
 </div>
 <div class="col-md-2">
-    F = 0.5 p V <sup>2</sup> S cosA  = <b>{{fWind.calculate()}}</b>
+    <div>
+        F = 0.5 p V <sup>2</sup> S cosA  = <b>{{fWind.calculate()}}</b>
+    </div>
+    <div>
+         M = H X F = <b>{{fWind.calculateMoment(billBoard.stoykaHeight)}}</b>
+    </div>
+    <div>
+            σ = M / W
+    </div>
     <div class="form-group"> 
-         <label for="">Густота воздуха(1.2кг/м <sup>3</sup></label>
+         <label for="">Густота воздуха(1.2кг/м <sup>3</sup>)</label>
         <input [(ngModel)]="fWind.P"  class="form-control"/>
     </div>
     <div class="form-group"> 
