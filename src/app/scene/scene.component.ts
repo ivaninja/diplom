@@ -3,21 +3,13 @@ import * as THREE from 'three';
 import "./js/EnableThreeExamples";
 import "three/examples/js/controls/OrbitControls";
 import "three/examples/js/loaders/ColladaLoader";
-class BillBoard {
+class Construction {
   stoykaWidth: number;
   stoykaHeight: number;
   stoykaDepth: number;
   bilboardWidth: number;
   bilboardHeigth: number;
   bilboardDepth: number;
-  boardCarcas: boolean;
-  stoykaCarcas: boolean;
-  material: string;
-  floorMaterial: string;
-  logo:string;
-  getBoardArea(){
-    return this.bilboardWidth * this.bilboardHeigth;
-  }
   constructor(
     StoykaWidth,
     StoykaHeight,
@@ -32,35 +24,152 @@ class BillBoard {
     this.bilboardHeigth = BilboardHeigth;
     this.bilboardDepth = BilboardDepth;
     this.bilboardWidth = BilboardWidth;
-    this.stoykaCarcas = false;
-    this.boardCarcas = false;
+  }
+}
+class BillBoard {
+  // stoykaWidth: number;
+  // stoykaHeight: number;
+  // stoykaDepth: number;
+  // bilboardWidth: number;
+  // bilboardHeigth: number;
+  // bilboardDepth: number;
+  // boardCarcas: boolean;
+  // stoykaCarcas: boolean;
+  construction: Construction;
+  material: string;
+  floorMaterial: string;
+  logo: string;
+  P: number; //густота
+  V: number; // скорость ветра
+  S: number; // площадь
+  A: number; // угол
+  materialP: number;
+  materiealE: number;
+  // calculation: Calculation;
+  getBoardArea() {
+    return this.construction.bilboardWidth / 100 * this.construction.bilboardHeigth / 100;
+  }
+  getBoardV() {
+    return (
+      this.construction.bilboardWidth /
+      100 *
+      this.construction.bilboardHeigth /
+      100 *
+      this.construction.bilboardDepth /
+      100
+    );
+  }
+  getBoardMassa() {
+    console.log(this.materialP);
+    this.materialP = 7850;
+    return this.materialP * this.getBoardV();
+  }
+  getFkr() {
+    const heighInM = this.construction.bilboardHeigth / 100;
+    const widthInM = this.construction.bilboardWidth / 100;
+    console.log(this)
+    return Number((0.11 * this.V / Math.max(heighInM, widthInM)).toFixed(2));
+  }
+  getF() {
+    const stoykaHeighInM = this.construction.stoykaHeight / 100;
+    // this.materiealE = 2.1 * 10 ** 11;
+    // console.log(this.materiealE);
+    // console.log((Math.sqrt((3*this.materiealE*Jy) / (this.getBoardMassa() * this.stoykaHeight**3))));
+    return Number(
+      Math.sqrt(
+        3 * this.materiealE * this.calculateJy() / (this.getBoardMassa() * stoykaHeighInM ** 3)
+      ).toFixed(2)
+    );
+  }
+  styleForZnak(){
+    return this.getFkr() < this.getF();
+  }
+  calculateFWIND(){
+    return (0.5 * this.P * this.V ** 2 * this.getBoardArea() * Number(Math.cos(this.toRadians(this.A)).toFixed(2))).toFixed(2);
+  }
+   calculateMoment() {
+    const stoykaHeightInMetre = this.construction.stoykaHeight / 100;
+    return Number(this.calculateFWIND()) * stoykaHeightInMetre / 100;
+  }
+  toRadians(angle) {
+    // console.log(angle * (Math.PI / 180));
+    return Number((angle * (Math.PI / 180)).toFixed(2));
+  }
+  calculateJy() {
+    const stoykaWidthInMetre = this.construction.stoykaWidth / 100;
+    return Number((stoykaWidthInMetre ** 4 / 12).toFixed(2));
+  }
+  calculateW() {
+    return Number((this.calculateJy() / (this.construction.stoykaWidth / 100 / 2)).toFixed(2));
+  }
+  calculateSigma() {
+    return Number(
+      (
+        this.calculateMoment() / this.calculateW()
+      ).toFixed(2)
+    );
+  }
+  constructor(
+    StoykaWidth,
+    StoykaHeight,
+    StoykaDepth,
+    BilboardWidth,
+    BilboardHeigth,
+    BilboardDepth
+  ) {
+    // this.stoykaDepth = StoykaDepth;
+    // this.stoykaHeight = StoykaHeight;
+    // this.stoykaWidth = StoykaWidth;
+    // this.bilboardHeigth = BilboardHeigth;
+    // this.bilboardDepth = BilboardDepth;
+    // this.bilboardWidth = BilboardWidth;
+    // this.stoykaCarcas = false;
+    // this.boardCarcas = false;
+    this.construction = new Construction(200, 1000, 200, 600, 200, 50);
     this.material = "carcas";
     this.floorMaterial = "plane";
     this.logo = "plane";
+    this.materialP = 7850;
+    this.materiealE = 2.1 * 10 ** 11;
+    // this.calculation = new Calculation(1.2, 10, this.getBoardArea(), 45);
+    this.P = 1.2;
+    this.V = 10;
+    this.S = this.getBoardArea();
+    this.A = 45;
   }
 }
-class Fwind {
-  P: number //густота
-  V: number // скорость ветра
-  S: number // площадь
-  A: number // угол 
-  constructor(_P,_V,_S,_A){
-    this.P = _P;
-    this.V = _V;
-    this.S = _S;
-    this.A = _A;
+class Calculation {
+  
+  // constructor(_P, _V, _S, _A) {
+   
+  // }
+  calculateF() {
+    // console.log(0.5 * this.P * this.V ** 2);
+    
   }
-  calculate(){
-    console.log(0.5 * this.P * this.V**2);
-    console.log(Math.cos(this.toRadians(this.A)).toFixed(2));
-    return (0.5 * this.P * this.V**2 * this.S * Number(Math.cos(this.toRadians(this.A)).toFixed(2))).toFixed(2);
+  calculateMoment(stoykaHeight) {
+    const stoykaHeightInMetre = stoykaHeight / 100;
+    return Number(this.calculateF()) * stoykaHeightInMetre / 100;
   }
-  calculateMoment(stoykaHeight){
-      return Number(this.calculate()) * stoykaHeight;
-  }
-  toRadians (angle) {
+  toRadians(angle) {
     // console.log(angle * (Math.PI / 180));
     return Number((angle * (Math.PI / 180)).toFixed(2));
+  }
+  calculateJy(stoykaWidth: number) {
+    const stoykaWidthInMetre = stoykaWidth / 100;
+    return Number((stoykaWidthInMetre ** 4 / 12).toFixed(2));
+  }
+  calculateW(stoykaWidth) {
+    return Number(
+      (this.calculateJy(stoykaWidth) / (stoykaWidth / 100 / 2)).toFixed(2)
+    );
+  }
+  calculateSigma(stoykaWidth, stoykaHeight) {
+    return Number(
+      (
+        this.calculateMoment(stoykaHeight) / this.calculateW(stoykaWidth)
+      ).toFixed(2)
+    );
   }
 }
 @Component({
@@ -77,7 +186,7 @@ export class SceneComponent implements AfterViewInit {
   BottomPart: THREE.Mesh;
   TopPart: THREE.Mesh;
   Floor: THREE.Mesh;
-  fWind: Fwind;
+  // fWind: Fwind;
   public fieldOfView: number = 60;
   public nearClippingPane: number = 1;
   public farClippingPane: number = 5000;
@@ -90,7 +199,7 @@ export class SceneComponent implements AfterViewInit {
   constructor() {
     this.render = this.render.bind(this);
     this.billBoard = new BillBoard(200, 1000, 200, 600, 200, 50);
-    this.fWind = new Fwind(1.2,300,this.billBoard.getBoardArea(),45);
+    // this.fWind = new Fwind(1.2,10,this.billBoard.getBoardArea(),45);
     this.onModelLoadingCompleted = this.onModelLoadingCompleted.bind(this);
   }
 
@@ -172,13 +281,13 @@ export class SceneComponent implements AfterViewInit {
 
   changeSize() {
     //Расчеты для стойки
-    Object.keys(this.billBoard).map((key, index) => {
+    Object.keys(this.billBoard.construction).map((key, index) => {
       if (this.billBoard[key]) {
-        this.billBoard[key] =
-          this.billBoard[key] > 1000 ? 1000 : this.billBoard[key];
-        this.billBoard[key] = this.billBoard[key] < 0 ? 1 : this.billBoard[key];  
+        this.billBoard[key] = this.billBoard[key] > 1000 ? 1000 : this.billBoard[key];
+        this.billBoard[key] = this.billBoard[key] < 0 ? 1 : this.billBoard[key];
       } else this.billBoard[key] = 1;
     });
+    // this.fWind.S = this.billBoard.getBoardArea();
     // this.stoyka.material = new THREE.MeshBasicMaterial({
     //   //color: 0x00ff00,
     //   wireframe: this.billBoard.stoykaCarcas
@@ -196,13 +305,12 @@ export class SceneComponent implements AfterViewInit {
     const width = (this.stoyka.geometry as any).parameters.width;
     const depth = (this.stoyka.geometry as any).parameters.depth;
     // this.stoyka.geometry.parameters;
-    (this.stoyka
-      .geometry as any).parameters.height = this.billBoard.stoykaHeight;
-    (this.stoyka.geometry as any).parameters.width = this.billBoard.stoykaWidth;
-    (this.stoyka.geometry as any).parameters.depth = this.billBoard.stoykaWidth;
-    this.stoyka.position.setY(this.billBoard.stoykaHeight / 2);
-    let scaleFactorY = this.billBoard.stoykaHeight / height;
-    let scaleFactorX = this.billBoard.stoykaWidth / width;
+    (this.stoyka.geometry as any).parameters.height = this.billBoard.construction.stoykaHeight;
+    (this.stoyka.geometry as any).parameters.width = this.billBoard.construction.stoykaWidth;
+    (this.stoyka.geometry as any).parameters.depth = this.billBoard.construction.stoykaWidth;
+    this.stoyka.position.setY(this.billBoard.construction.stoykaHeight / 2);
+    let scaleFactorY = this.billBoard.construction.stoykaHeight / height;
+    let scaleFactorX = this.billBoard.construction.stoykaWidth / width;
     let scaleFactorZ = scaleFactorX;
     // Рассчеты для нижней части
     const BottomPartHeight = (this.BottomPart.geometry as any).parameters
@@ -218,28 +326,21 @@ export class SceneComponent implements AfterViewInit {
     const bilboardWidth = (this.TopPart.geometry as any).parameters.width;
     const bilboardDepth = (this.TopPart.geometry as any).parameters.depth;
 
-    (this.TopPart
-      .geometry as any).parameters.height = this.billBoard.bilboardHeigth;
-    (this.TopPart
-      .geometry as any).parameters.width = this.billBoard.bilboardWidth;
-    (this.TopPart
-      .geometry as any).parameters.depth = this.billBoard.bilboardDepth;
+    (this.TopPart.geometry as any).parameters.height = this.billBoard.construction.bilboardHeigth;
+    (this.TopPart.geometry as any).parameters.width = this.billBoard.construction.bilboardWidth;
+    (this.TopPart.geometry as any).parameters.depth = this.billBoard.construction.bilboardDepth;
 
-    this.TopPart.position.setY(
-      this.billBoard.stoykaHeight - this.billBoard.bilboardHeigth / 2
-    );
-    this.TopPart.position.setZ(
-      this.billBoard.stoykaWidth / 2 + this.billBoard.bilboardDepth / 2
-    );
-    let scaleFactorBoardY = this.billBoard.bilboardHeigth / bilboardHeigth;
-    let scaleFactorBoardX = this.billBoard.bilboardWidth / bilboardWidth;
-    let scaleFactorBoardZ = this.billBoard.bilboardDepth / bilboardDepth;
+    this.TopPart.position.setY(this.billBoard.construction.stoykaHeight - this.billBoard.construction.bilboardHeigth / 2);
+    this.TopPart.position.setZ(this.billBoard.construction.stoykaWidth / 2 + this.billBoard.construction.bilboardDepth / 2);
+    let scaleFactorBoardY = this.billBoard.construction.bilboardHeigth / bilboardHeigth;
+    let scaleFactorBoardX = this.billBoard.construction.bilboardWidth / bilboardWidth;
+    let scaleFactorBoardZ = this.billBoard.construction.bilboardDepth / bilboardDepth;
     this.TopPart.geometry.scale(
       scaleFactorBoardX,
       scaleFactorBoardY,
       scaleFactorBoardZ
     );
-    console.log(this.billBoard.stoykaWidth);
+    // console.log(this.billBoard.stoykaWidth);
     this.stoyka.geometry.scale(scaleFactorX, scaleFactorY, scaleFactorZ);
 
     // this.stoyka.geometry.parameters.height = 200;
@@ -341,9 +442,9 @@ export class SceneComponent implements AfterViewInit {
   }
   addStoyka() {
     var geometry = new THREE.BoxGeometry(
-      this.billBoard.stoykaWidth,
-      this.billBoard.stoykaHeight,
-      this.billBoard.stoykaDepth
+      this.billBoard.construction.stoykaWidth,
+      this.billBoard.construction.stoykaHeight,
+      this.billBoard.construction.stoykaDepth
     );
     // geometry.dynamic = true;
 
@@ -356,7 +457,7 @@ export class SceneComponent implements AfterViewInit {
     var cube = new THREE.Mesh(geometry, material);
     cube.name = "Stoyka";
     this.stoyka = cube;
-    cube.position.set(0, this.billBoard.stoykaHeight / 2, 1);
+    cube.position.set(0, this.billBoard.construction.stoykaHeight / 2, 1);
     console.log(this.scene.children);
 
     this.scene.add(cube);
@@ -466,8 +567,8 @@ export class SceneComponent implements AfterViewInit {
   }
   //downPart
   addBottomBoard() {
-    const r = this.billBoard.stoykaWidth + this.billBoard.stoykaWidth * 0.2;
-    const height = this.billBoard.stoykaHeight * 0.15;
+    const r = this.billBoard.construction.stoykaWidth + this.billBoard.construction.stoykaWidth * 0.2;
+    const height = this.billBoard.construction.stoykaHeight * 0.15;
 
     var geometry = new THREE.CylinderGeometry(r, r, height, 32); //32 circle 3- triangle 4- square
     // var geometry = new THREE.BoxGeometry( 20, 150, 10 );
@@ -488,9 +589,9 @@ export class SceneComponent implements AfterViewInit {
     // var geometry = new THREE.CylinderGeometry( r, r, 50, 3, null, true); //32 circle 3- triangle 4- square
     // geometry.
     var geometry = new THREE.BoxGeometry(
-      this.billBoard.bilboardWidth,
-      this.billBoard.bilboardHeigth,
-      this.billBoard.bilboardDepth
+      this.billBoard.construction.bilboardWidth,
+      this.billBoard.construction.bilboardHeigth,
+      this.billBoard.construction.bilboardDepth
     );
     var material = new THREE.MeshStandardMaterial({
       color: 0xffff00,
@@ -501,9 +602,9 @@ export class SceneComponent implements AfterViewInit {
     cylinder.name = "BottoMPart";
     this.TopPart = cylinder;
     const positionZ =
-      this.billBoard.stoykaDepth / 2 + this.billBoard.bilboardDepth / 2;
+      this.billBoard.construction.stoykaDepth / 2 + this.billBoard.construction.bilboardDepth / 2;
     const positionY =
-      this.billBoard.stoykaHeight - this.billBoard.bilboardHeigth / 2;
+      this.billBoard.construction.stoykaHeight - this.billBoard.construction.bilboardHeigth / 2;
     cylinder.position.set(0, positionY, positionZ);
     this.scene.add(cylinder);
   }

@@ -1,13 +1,13 @@
 <div class="row">
 <div class="col-md-2">
     <div class="form-group">
-        <label for="stoykaHeight">Высота стойки</label>
+        <label for="stoykaHeight">Высота стойки (CM)</label>
         
-        <input class="form-control" (change)= "changeSize()" type="number" min="1" max="1000" style="margin: 10px;" placeholder="Высота стойки" [(ngModel)]="billBoard.stoykaHeight"  />
+        <input class="form-control" (change)= "changeSize()" type="number" min="1" max="1000" style="margin: 10px;" placeholder="Высота стойки" [(ngModel)]="billBoard.construction.stoykaHeight"  />
     </div>
     <div class="form-group">
-        <label for="stoykaWidth">Ширина стойки</label>
-        <input class="form-control" (change)= "changeSize()" type="number" min="1" style="margin: 10px;" placeholder="Ширина стойки" [(ngModel)]="billBoard.stoykaWidth"/>
+        <label for="stoykaWidth">Ширина стойки (CM)</label>
+        <input class="form-control" (change)= "changeSize()" type="number" min="1" style="margin: 10px;" placeholder="Ширина стойки" [(ngModel)]="billBoard.construction.stoykaWidth"/>
     </div>
     <div class="form-group">
         <label for="selectFloorMaterial">Материал пола</label>
@@ -88,48 +88,89 @@
         </select>
     </div>
     <div class="form-group"> 
-        <label for="bilboardHeigth">Высота билборда</label> 
-        <input class="form-control" (change)= "changeSize()"type="number" min="1" max="1000"  style="margin: 10px;" placeholder="Высота билборда" [(ngModel)]="billBoard.bilboardHeigth"  />
+        <label for="bilboardHeigth">Высота билборда(CM)</label> 
+        <input class="form-control" (change)= "changeSize()"type="number" min="1" max="1000"  style="margin: 10px;" placeholder="Высота билборда" [(ngModel)]="billBoard.construction.bilboardHeigth"  />
     </div>
     <div class="form-group"> 
-        <label for="bilboardWidth">Ширина билборда</label> 
-        <input class="form-control" (change)= "changeSize()"type="number" min="1" max="1000"  style="margin: 10px;" placeholder="Ширина билбоарда" [(ngModel)]="billBoard.bilboardWidth"/>
+        <label for="bilboardWidth">Ширина билборда(CM)</label> 
+        <input class="form-control" (change)= "changeSize()"type="number" min="1" max="1000"  style="margin: 10px;" placeholder="Ширина билбоарда" [(ngModel)]="billBoard.construction.bilboardWidth"/>
     </div>
     <div class="form-group"> 
-        <label for="bilboardDepth">Глубина билборда</label> 
-        <input class="form-control" (change)= "changeSize()"type="number" min="1" max="1000"  style="margin: 10px;" placeholder="Глубина билбоарда" [(ngModel)]="billBoard.bilboardDepth"/>
+        <label for="bilboardDepth">Глубина билборда(CM)</label> 
+        <input class="form-control" (change)= "changeSize()"type="number" min="1" max="1000"  style="margin: 10px;" placeholder="Глубина билбоарда" [(ngModel)]="billBoard.construction.bilboardDepth"/>
     </div>
     <!-- <label for="stoykaCarcas">Каркас</label> -->
     <!-- <input (change)= "changeSize()"type="checkbox" [(ngModel)]="billBoard.boardCarcas" id=""> -->
 </div>
-<div class="col-md-2">
+<div class="col-md-3">
     <div>
-        F = 0.5 p V <sup>2</sup> S cosA  = <b>{{fWind.calculate()}}</b>
-    </div>
-    <div>
-         M = H X F = <b>{{fWind.calculateMoment(billBoard.stoykaHeight)}}</b>
+        F = 0.5 p V <sup>2</sup> S cosA  = <b>{{billBoard.calculateFWIND()}}</b>
     </div>
     <div>
-            σ = M / W
+         M = H X F = <b>{{billBoard.calculateMoment()}}</b>
     </div>
-    <div class="form-group"> 
-         <label for="">Густота воздуха(1.2кг/м <sup>3</sup>)</label>
-        <input [(ngModel)]="fWind.P"  class="form-control"/>
+    <div>
+        σ = M / W = <b>{{billBoard.calculateSigma()}}</b>
     </div>
-    <div class="form-group"> 
-        <label for="">Скорость воздуха</label>
-        <input [(ngModel)]="fWind.V" class="form-control"/>
+    <div>
+        W = J<sub>y</sub> / y<sub>max</sub> = <b>{{billBoard.calculateW() }}</b>
     </div>
-    <div class="form-group"> 
-        <label for="">Площадь Щита: <b>{{billBoard.getBoardArea()}} м<sup >2</sup></b></label>
+    <div>
+       Для прямоугольника J<sub>y</sub> = b<sup>4</sup>/12 = <b>{{billBoard.calculateJy()}}</b>
+        <div>
+             y<sub>max</sub> = <b>{{billBoard.construction.stoykaWidth/100/2}}</b>;
+        </div> 
+    </div>
+    <div >
+        <label for="">Площадь Щита:
+            <b>{{billBoard.getBoardArea()}} м
+                <sup>2</sup>
+            </b>
+        </label>
         <!-- <input disabled class="form-control" /> -->
     </div>
     <div class="form-group"> 
-        <label for="">Угол между нормалью до поверхности щита и скоростью ветра</label>
-        <input [(ngModel)]="fWind.A" class="form-control"/>
+         <label for="">Густота воздуха(1.2кг/м <sup>3</sup>)</label>
+        <input [(ngModel)]="billBoard.P"  class="form-control"/>
+    </div>
+    <div class="form-group"> 
+        <label for="">Скорость ветра(М /C )</label>
+        <input [(ngModel)]="billBoard.V" class="form-control"/>
     </div>
     
-   
+    
+</div>
+<div class="col-md-3">
+    <div>
+     Плотность стали P = :
+    <b>7850 кг/м³</b>
+    </div>
+     <div> Прочности стали E = :
+    <b>2.1 * 10<sup>11</sup>ПА</b>
+    </div>
+    <div>
+         V (Объем) = A * B * C = <b>{{billBoard.getBoardV()}} м³</b>
+    </div>
+    <div>
+        М (Масса кг) = P * V =<b> {{billBoard.getBoardMassa()}} кг </b>
+    </div>
+    <div>
+       f<sub>кр</sub> = 0.11 * V  / max(a,b) = <b> {{billBoard.getFkr()}}</b>
+    </div>
+    <div>
+     <span style="white-space: nowrap; font-size:larger">
+       f = &radic;
+        <span>(3*E*J<sub>y</sub> /  M * H<sup>3</sup>)</span> = <b>{{billBoard.getF()}}</b>
+    </span>
+    </div>
+    <div>
+        f <span [ngStyle]="{'color': billBoard.styleForZnak() ? 'green' : 'red' }"> > </span>f<sub>кр</sub>
+    </div>    
+    <div class="form-group"> 
+        <label for="">Угол между нормалью до поверхности щита и скоростью ветра(градусы)</label>
+        <input [(ngModel)]="billBoard.A" class="form-control"/>
+    </div> 
+    
 </div>
 </div>
 <!-- <button (click)="changeSize()">
