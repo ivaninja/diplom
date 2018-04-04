@@ -282,10 +282,10 @@ export class SceneComponent implements AfterViewInit {
   changeSize() {
     //Расчеты для стойки
     Object.keys(this.billBoard.construction).map((key, index) => {
-      if (this.billBoard[key]) {
-        this.billBoard[key] = this.billBoard[key] > 1000 ? 1000 : this.billBoard[key];
-        this.billBoard[key] = this.billBoard[key] < 0 ? 1 : this.billBoard[key];
-      } else this.billBoard[key] = 1;
+      if (this.billBoard.construction[key]) {
+        this.billBoard.construction[key] = this.billBoard.construction[key] > 1000 ? 1000 : this.billBoard.construction[key];
+        this.billBoard.construction[key] = this.billBoard.construction[key] < 0 ? 1 : this.billBoard.construction[key];
+      } else this.billBoard.construction[key] = 1;
     });
     // this.fWind.S = this.billBoard.getBoardArea();
     // this.stoyka.material = new THREE.MeshBasicMaterial({
