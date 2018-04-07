@@ -500,34 +500,25 @@ export class SceneComponent implements AfterViewInit {
       () => {
         console.log("here");
         console.log(this);
-        this.stoyka.material = new THREE.MeshBasicMaterial({
+        const material =  new THREE.MeshBasicMaterial({
           //color: 0x00ff00,
           map: crateTexture
         });
-        this.BottomPart.material = new THREE.MeshBasicMaterial({
-          //color: 0xffff00,
-          map: crateTexture
-        });
+        this.stoyka.material = material
+        this.BottomPart.material =material
+        this.stoykaCylinder.material = material
         var materialArray = [];
         materialArray.push(
-          new THREE.MeshBasicMaterial({
-            map: crateTexture
-          })
+          material
         );
         materialArray.push(
-          new THREE.MeshBasicMaterial({
-            map: crateTexture
-          })
+          material
         );
         materialArray.push(
-          new THREE.MeshBasicMaterial({
-            map: crateTexture
-          })
+          material
         );
         materialArray.push(
-          new THREE.MeshBasicMaterial({
-            map: crateTexture
-          })
+          material
         );
         
         materialArray.push(
