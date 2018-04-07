@@ -10,6 +10,8 @@ class Construction {
   bilboardWidth: number;
   bilboardHeigth: number;
   bilboardDepth: number;
+  sForSquare:number;
+  sForRing: number;
   constructor(
     StoykaWidth,
     StoykaHeight,
@@ -18,6 +20,8 @@ class Construction {
     BilboardHeigth,
     BilboardDepth
   ) {
+    this.sForSquare = 1;
+    this.sForRing = 1;
     this.stoykaDepth = StoykaDepth;
     this.stoykaHeight = StoykaHeight;
     this.stoykaWidth = StoykaWidth;
@@ -35,9 +39,11 @@ class BillBoard {
   // bilboardDepth: number;
   // boardCarcas: boolean;
   // stoykaCarcas: boolean;
+  typeOfStoyka:string;
   construction: Construction;
   material: string;
   floorMaterial: string;
+  
   logo: string;
   P: number; //густота
   V: number; // скорость ветра
@@ -96,11 +102,27 @@ class BillBoard {
     return Number((angle * (Math.PI / 180)).toFixed(2));
   }
   calculateJy() {
+    const {typeOfStoyka, construction:{sForRing, sForSquare}} = this;
     const stoykaWidthInMetre = this.construction.stoykaWidth / 100;
-    return Number((stoykaWidthInMetre ** 4 / 12).toFixed(2));
+    const PI = Math.PI;
+    console.log(this.typeOfStoyka);
+    if(typeOfStoyka == 'rectangle'){
+      return Number((stoykaWidthInMetre ** 4 / 12).toFixed(2));
+    }
+    if(typeOfStoyka == 'square'){
+      return Number((2/3 * stoykaWidthInMetre ** 3 / sForSquare).toFixed(2));
+    }
+    if(typeOfStoyka == 'ring'){
+      return Number((PI * stoykaWidthInMetre ** 4 / 64 * (1 - (sForRing / stoykaWidthInMetre))).toFixed(2));
+    }
+    if(typeOfStoyka == 'circle'){
+      return Number((PI * stoykaWidthInMetre ** 4 / 64 ).toFixed(2));
+    }
+    return 1;
+   
   }
   calculateW() {
-    return Number((this.calculateJy() / (this.construction.stoykaWidth / 100 / 2)).toFixed(2));
+    return Number(( this.calculateJy()  / (this.construction.stoykaWidth / 100 / 2)).toFixed(2));
   }
   calculateSigma() {
     return Number(
@@ -117,14 +139,7 @@ class BillBoard {
     BilboardHeigth,
     BilboardDepth
   ) {
-    // this.stoykaDepth = StoykaDepth;
-    // this.stoykaHeight = StoykaHeight;
-    // this.stoykaWidth = StoykaWidth;
-    // this.bilboardHeigth = BilboardHeigth;
-    // this.bilboardDepth = BilboardDepth;
-    // this.bilboardWidth = BilboardWidth;
-    // this.stoykaCarcas = false;
-    // this.boardCarcas = false;
+    this.typeOfStoyka = 'rectangle'
     this.construction = new Construction(200, 1000, 200, 600, 200, 50);
     this.material = "carcas";
     this.floorMaterial = "plane";
@@ -138,40 +153,7 @@ class BillBoard {
     this.A = 45;
   }
 }
-class Calculation {
-  
-  // constructor(_P, _V, _S, _A) {
-   
-  // }
-  calculateF() {
-    // console.log(0.5 * this.P * this.V ** 2);
-    
-  }
-  calculateMoment(stoykaHeight) {
-    const stoykaHeightInMetre = stoykaHeight / 100;
-    return Number(this.calculateF()) * stoykaHeightInMetre / 100;
-  }
-  toRadians(angle) {
-    // console.log(angle * (Math.PI / 180));
-    return Number((angle * (Math.PI / 180)).toFixed(2));
-  }
-  calculateJy(stoykaWidth: number) {
-    const stoykaWidthInMetre = stoykaWidth / 100;
-    return Number((stoykaWidthInMetre ** 4 / 12).toFixed(2));
-  }
-  calculateW(stoykaWidth) {
-    return Number(
-      (this.calculateJy(stoykaWidth) / (stoykaWidth / 100 / 2)).toFixed(2)
-    );
-  }
-  calculateSigma(stoykaWidth, stoykaHeight) {
-    return Number(
-      (
-        this.calculateMoment(stoykaHeight) / this.calculateW(stoykaWidth)
-      ).toFixed(2)
-    );
-  }
-}
+
 @Component({
   selector: "scene",
   templateUrl: "./scene.component.html",
@@ -183,6 +165,7 @@ export class SceneComponent implements AfterViewInit {
   private cameraTarget: THREE.Vector3;
   public scene: THREE.Scene;
   public stoyka: THREE.Mesh;
+  stoykaCylinder: THREE.Mesh;
   BottomPart: THREE.Mesh;
   TopPart: THREE.Mesh;
   Floor: THREE.Mesh;
@@ -287,19 +270,19 @@ export class SceneComponent implements AfterViewInit {
         this.billBoard.construction[key] = this.billBoard.construction[key] < 0 ? 1 : this.billBoard.construction[key];
       } else this.billBoard.construction[key] = 1;
     });
-    // this.fWind.S = this.billBoard.getBoardArea();
-    // this.stoyka.material = new THREE.MeshBasicMaterial({
-    //   //color: 0x00ff00,
-    //   wireframe: this.billBoard.stoykaCarcas
-    // });
-    // this.BottomPart.material = new THREE.MeshBasicMaterial({
-    //   //color: 0xffff00,
-    //   wireframe: this.billBoard.stoykaCarcas
-    // });
-    // this.TopPart.material = new THREE.MeshBasicMaterial({
-    //   //color: 0xffff00,
-    //   wireframe: this.billBoard.boardCarcas
-    // });
+    const {billBoard:{typeOfStoyka}} = this;
+    console.log('--------------')    
+    console.log(this.scene.children)
+    console.log('--------------')
+    if(typeOfStoyka == 'circle' || typeOfStoyka == 'ring' ){
+      this.stoyka.visible = false;
+      this.stoykaCylinder.visible = true;
+    }
+    if(typeOfStoyka == 'rectangle' || typeOfStoyka == 'square' ){
+      this.stoyka.visible = true;
+      this.stoykaCylinder.visible = false;
+      // console.log(a);
+    }
     console.log(this.stoyka.geometry);
     const height = (this.stoyka.geometry as any).parameters.height;
     const width = (this.stoyka.geometry as any).parameters.width;
@@ -309,6 +292,7 @@ export class SceneComponent implements AfterViewInit {
     (this.stoyka.geometry as any).parameters.width = this.billBoard.construction.stoykaWidth;
     (this.stoyka.geometry as any).parameters.depth = this.billBoard.construction.stoykaWidth;
     this.stoyka.position.setY(this.billBoard.construction.stoykaHeight / 2);
+    this.stoykaCylinder.position.setY(this.billBoard.construction.stoykaHeight / 2);
     let scaleFactorY = this.billBoard.construction.stoykaHeight / height;
     let scaleFactorX = this.billBoard.construction.stoykaWidth / width;
     let scaleFactorZ = scaleFactorX;
@@ -342,7 +326,7 @@ export class SceneComponent implements AfterViewInit {
     );
     // console.log(this.billBoard.stoykaWidth);
     this.stoyka.geometry.scale(scaleFactorX, scaleFactorY, scaleFactorZ);
-
+    this.stoykaCylinder.geometry.scale(scaleFactorX, scaleFactorY, scaleFactorZ);
     // this.stoyka.geometry.parameters.height = 200;
 
     this.render();
@@ -441,11 +425,13 @@ export class SceneComponent implements AfterViewInit {
     // this.scene.add( cube );
   }
   addStoyka() {
+    const {billBoard:{construction:{stoykaWidth, stoykaHeight, stoykaDepth}}} = this;
     var geometry = new THREE.BoxGeometry(
-      this.billBoard.construction.stoykaWidth,
-      this.billBoard.construction.stoykaHeight,
-      this.billBoard.construction.stoykaDepth
+     stoykaWidth,
+     stoykaHeight,
+     stoykaDepth
     );
+    var geometryCylinder = new THREE.CylinderGeometry( stoykaWidth / 2, stoykaWidth /2 , stoykaHeight, 32 );
     // geometry.dynamic = true;
 
     // var material = new THREE.MeshBasicMaterial( {color: 0x00ff00, wireframe:this.billBoard.stoykaCarcas} );
@@ -455,13 +441,18 @@ export class SceneComponent implements AfterViewInit {
       wireframe: true
     });
     var cube = new THREE.Mesh(geometry, material);
-    cube.name = "Stoyka";
+    var cylinder = new THREE.Mesh( geometryCylinder, material );
+    cube.name = "StoykaSquare";
+    cylinder.name = "StoYkacylinder"
     this.stoyka = cube;
+    this.stoykaCylinder = cylinder;
     cube.position.set(0, this.billBoard.construction.stoykaHeight / 2, 1);
+    cylinder.position.set(0, this.billBoard.construction.stoykaHeight / 2, 1);
     console.log(this.scene.children);
-
+    cylinder.visible = false;
     this.scene.add(cube);
-    // this.scene.getChildByName("Stoyka").
+    this.scene.add(cylinder);
+    // this.scene.getChildByName("StoykaStoykaSquare").
     // this.scene.remove(this.scene.getChildByName("Stoyka"));
     console.log();
   }
@@ -492,18 +483,14 @@ export class SceneComponent implements AfterViewInit {
   changeMaterial() {
     console.log(`assets/${this.billBoard.material}.jpg`);
     if (this.billBoard.material == "carcas") {
-      this.stoyka.material = new THREE.MeshStandardMaterial({
+      const material = new THREE.MeshStandardMaterial({
         color: 0xffff00,
         wireframe: true
       });
-      this.BottomPart.material = new THREE.MeshStandardMaterial({
-        color: 0xffff00,
-        wireframe: true
-      });
-      this.TopPart.material = new THREE.MeshStandardMaterial({
-        color: 0xffff00,
-        wireframe: true
-      });
+      this.stoyka.material = material;
+      this.stoykaCylinder.material = material;
+      this.BottomPart.material = material;
+      this.TopPart.material = material;
       this.render();
       return;
     }

@@ -1,5 +1,59 @@
 <div class="row">
 <div class="col-md-2">
+    <label for="typeOfStoyka"> Тип стойки</label>
+    <select class="form-control" (change)= "changeSize()"  [(ngModel)]="billBoard.typeOfStoyka" name="typeOfStoyka" id="">
+        <option value="rectangle">
+            прямоугольник
+        </option>
+        <option value="square">
+            полый квадрат
+        </option>
+        <option value="ring">
+            кольцо
+        </option>
+        <option value="circle">
+            круг
+        </option>
+    </select>
+    <div *ngIf="billBoard.typeOfStoyka == 'rectangle'">
+        <div>
+            Для прямоугольника J<sub>y</sub> = b<sup>4</sup>/12 = <b>{{billBoard.calculateJy()}}</b>
+             <div>
+                  y<sub>max</sub> = <b>{{billBoard.construction.stoykaWidth/100/2}}</b>;
+             </div> 
+         </div>
+    </div>
+    <div *ngIf="billBoard.typeOfStoyka == 'square'">
+        <div>
+            <label for="sForSquare">Толщина полого квадрата</label>
+            <input class="form-control" (change)= "changeSize()" type="number" min="1" max="1000"  style="margin: 10px;" placeholder="" [(ngModel)]="billBoard.construction.sForSquare"/>
+            Для квадрата J<sub>y</sub> = 2/3 * b<sup>3</sup>S = <b>{{billBoard.calculateJy()}}</b>
+             <div>
+                  y<sub>max</sub> = <b>{{billBoard.construction.stoykaWidth/100/2}}</b>;
+             </div> 
+         </div>
+    </div>
+    <div *ngIf="billBoard.typeOfStoyka == 'ring'">
+            <div>
+                <label for="sForRing">Радиус внешнего кольца d<sub>1</sub></label>
+                <input class="form-control" (change)= "changeSize()"type="number" min="1" max="1000"  style="margin: 10px;" placeholder="" [(ngModel)]="billBoard.construction.sForRing"/>
+                Для кольца J<sub>y</sub> = ( Pi * d<sup>4</sup> / 64 ) * [1 - d<sub>1</sub>/ d] = <b>{{billBoard.calculateJy()}}</b>
+                <div>
+                    y<sub>max</sub> = <b>{{billBoard.construction.stoykaWidth/100/2}}</b>;
+                </div> 
+            </div>
+    </div>
+    <div *ngIf="billBoard.typeOfStoyka == 'circle'">
+            <div>
+                Для круга J<sub>y</sub> = ( Pi * d<sup>4</sup> / 64 ) = <b>{{billBoard.calculateJy()}}</b>
+                <div>
+                    y<sub>max</sub> = <b>{{billBoard.construction.stoykaWidth/100/2}}</b>;
+                </div> 
+            </div>
+    </div>
+
+</div>
+<div class="col-md-2">
     <div class="form-group">
         <label for="stoykaHeight">Высота стойки (CM)</label>
         
@@ -115,12 +169,7 @@
     <div>
         W = J<sub>y</sub> / y<sub>max</sub> = <b>{{billBoard.calculateW() }}</b>
     </div>
-    <div>
-       Для прямоугольника J<sub>y</sub> = b<sup>4</sup>/12 = <b>{{billBoard.calculateJy()}}</b>
-        <div>
-             y<sub>max</sub> = <b>{{billBoard.construction.stoykaWidth/100/2}}</b>;
-        </div> 
-    </div>
+    
     <div >
         <label for="">Площадь Щита:
             <b>{{billBoard.getBoardArea()}} м
