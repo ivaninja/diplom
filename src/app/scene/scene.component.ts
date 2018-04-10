@@ -3,6 +3,9 @@ import * as THREE from 'three';
 import "./js/EnableThreeExamples";
 import "three/examples/js/controls/OrbitControls";
 import "three/examples/js/loaders/ColladaLoader";
+import { saveAs } from 'file-saver';
+import * as exportSTL from 'threejs-export-stl';
+// const exportSTL = require('threejs-export-stl');
 class Construction {
   stoykaWidth: number;
   stoykaHeight: number;
@@ -104,16 +107,18 @@ class BillBoard {
   calculateJy() {
     const {typeOfStoyka, construction:{sForRing, sForSquare}} = this;
     const stoykaWidthInMetre = this.construction.stoykaWidth / 100;
+    const sForSquareInMetre = sForSquare / 100;
+    const sForRingInMetre = sForRing / 100;
     const PI = Math.PI;
     console.log(this.typeOfStoyka);
     if(typeOfStoyka == 'rectangle'){
       return Number((stoykaWidthInMetre ** 4 / 12).toFixed(2));
     }
     if(typeOfStoyka == 'square'){
-      return Number((2/3 * stoykaWidthInMetre ** 3 / sForSquare).toFixed(2));
+      return Number((2/3 * stoykaWidthInMetre ** 3 / sForSquareInMetre).toFixed(2));
     }
     if(typeOfStoyka == 'ring'){
-      return Number((PI * stoykaWidthInMetre ** 4 / 64 * (1 - (sForRing / stoykaWidthInMetre))).toFixed(2));
+      return Number((PI * stoykaWidthInMetre ** 4 / 64 * (1 - (sForRingInMetre / stoykaWidthInMetre))).toFixed(2));
     }
     if(typeOfStoyka == 'circle'){
       return Number((PI * stoykaWidthInMetre ** 4 / 64 ).toFixed(2));
@@ -299,8 +304,10 @@ export class SceneComponent implements AfterViewInit {
     // Рассчеты для нижней части
     const BottomPartHeight = (this.BottomPart.geometry as any).parameters
       .height;
-    (this.BottomPart.geometry as any).parameters.height =
-      BottomPartHeight * scaleFactorY;
+    
+    (this.BottomPart.geometry as any).parameters.height *= scaleFactorY;
+    (this.BottomPart.geometry as any).parameters.width *= scaleFactorX;
+    (this.BottomPart.geometry as any).parameters.depth *= scaleFactorZ  ;
     const bottomPartYposition = BottomPartHeight * scaleFactorY / 2;
     this.BottomPart.geometry.scale(scaleFactorX, scaleFactorY, scaleFactorZ);
     this.BottomPart.position.setY(bottomPartYposition);
@@ -585,6 +592,31 @@ export class SceneComponent implements AfterViewInit {
       this.billBoard.construction.stoykaHeight - this.billBoard.construction.bilboardHeigth / 2;
     cylinder.position.set(0, positionY, positionZ);
     this.scene.add(cylinder);
+  }
+  importStl(){
+    // THREE.STLEx
+    const {billBoard:{construction:{stoykaWidth, stoykaHeight, stoykaDepth}}} = this;
+    var geometry = new THREE.BoxGeometry(
+     stoykaWidth,
+     stoykaHeight,
+     stoykaDepth
+    );
+    var combined = new THREE.Geometry();
+    const {billBoard:{typeOfStoyka}} = this;
+    if(typeOfStoyka == 'circle' || typeOfStoyka == 'ring' ){
+      THREE.GeometryUtils.merge(combined, this.stoyka);
+    }
+    if(typeOfStoyka == 'rectangle' || typeOfStoyka == 'square' ){
+      THREE.GeometryUtils.merge(combined, this.stoykaCylinder);
+    }
+    THREE.GeometryUtils.merge(combined, this.TopPart);
+    console.log(combined);
+    THREE.GeometryUtils.merge(combined, this.BottomPart);
+    console.log(combined);
+    
+    const buffer = exportSTL.fromGeometry(combined);
+    const blob = new Blob([buffer], { type: exportSTL.mimeType });
+    saveAs(blob, 'bilboard.stl');
   }
   //TopPart
   /* LIFECYCLE */
