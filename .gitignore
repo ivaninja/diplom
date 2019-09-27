@@ -6,8 +6,14 @@
 /out-tsc
 
 # dependencies
-/node_modules
+/node_modules/*
+!/node_modules/ngx-tui-image-editor
+# /node_modules/ngx-tui-image-editor/*
+# !/node_modules/ngx-tui-image-editor
+# /node_modules/ngx-tui-image-editor/fesm2015/*
+# !node_modules/ngx-tui-image-editor/fesm2015/ngx-tui-image-editor.js
 
+# /node_modules/ngx-tui-image-editor/fesm2015
 # IDEs and editors
 /.idea
 .project

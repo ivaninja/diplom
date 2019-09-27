@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { SceneComponent } from "./scene/scene.component";
+import { ToastUiImageEditorModule } from "ngx-tui-image-editor";
+
 
 @NgModule({
   declarations: [
@@ -11,7 +13,8 @@ import { SceneComponent } from "./scene/scene.component";
   ],
   imports: [
     BrowserModule,
-    FormsModule
+    FormsModule,
+    ToastUiImageEditorModule
   ],
   providers: [],
   bootstrap: [AppComponent]
