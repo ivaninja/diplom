@@ -1,4 +1,4 @@
-<div class="row">
+<div [hidden]="!withForm"  class="row">
 <div class="col-md-2">
     <label for="typeOfStoyka"> Тип стойки</label>
     <select class="form-control" (change)= "changeSize()"  [(ngModel)]="billBoard.typeOfStoyka" name="typeOfStoyka" id="">
@@ -20,7 +20,7 @@
             Для прямоугольника J<sub>y</sub> = b<sup>4</sup>/12 = <b>{{billBoard.calculateJy()}}</b>
              <div>
                   y<sub>max</sub> = <b>{{billBoard.construction.stoykaWidth/100/2}}</b>;
-             </div> 
+             </div>
          </div>
     </div>
     <div *ngIf="billBoard.typeOfStoyka == 'square'">
@@ -30,7 +30,7 @@
             Для квадрата J<sub>y</sub> = 2/3 * b<sup>3</sup>S = <b>{{billBoard.calculateJy()}}</b>
              <div>
                   y<sub>max</sub> = <b>{{billBoard.construction.stoykaWidth/100/2}}</b>;
-             </div> 
+             </div>
          </div>
     </div>
     <div *ngIf="billBoard.typeOfStoyka == 'ring'">
@@ -40,7 +40,7 @@
                 Для кольца J<sub>y</sub> = ( Pi * d<sup>4</sup> / 64 ) * [1 - d<sub>1</sub>/ d] = <b>{{billBoard.calculateJy()}}</b>
                 <div>
                     y<sub>max</sub> = <b>{{billBoard.construction.stoykaWidth/100/2}}</b>;
-                </div> 
+                </div>
             </div>
     </div>
     <div *ngIf="billBoard.typeOfStoyka == 'circle'">
@@ -48,7 +48,7 @@
                 Для круга J<sub>y</sub> = ( Pi * d<sup>4</sup> / 64 ) = <b>{{billBoard.calculateJy()}}</b>
                 <div>
                     y<sub>max</sub> = <b>{{billBoard.construction.stoykaWidth/100/2}}</b>;
-                </div> 
+                </div>
             </div>
     </div>
     <button class="btn btn-primary" (click)="importStl()">import stl</button>
@@ -56,14 +56,14 @@
 <div class="col-md-2">
     <div class="form-group">
         <label for="stoykaHeight">Высота стойки (CM)</label>
-        
+
         <input class="form-control" (change)= "changeSize()" type="number" min="1" max="1000" style="margin: 10px;" placeholder="Высота стойки" [(ngModel)]="billBoard.construction.stoykaHeight"  />
     </div>
     <div class="form-group">
         <label for="stoykaWidth">Ширина стойки (CM)</label>
         <input class="form-control" (change)= "changeSize()" type="number" min="1" style="margin: 10px;" placeholder="Ширина стойки" [(ngModel)]="billBoard.construction.stoykaWidth"/>
     </div>
-    <div class="form-group">
+    floor1    <div class="form-group">
         <label for="selectFloorMaterial">Материал пола</label>
         <select class="form-control" (change)="changeFloor()" [(ngModel)]="billBoard.floorMaterial" name="selectFloorMaterial" id="">
             <option value="plane">
@@ -106,7 +106,7 @@
 <!-- <input (change)= "changeSize()" (change)= "changeSize()"type="checkbox" [(ngModel)]="billBoard.stoykaCarcas" id=""> -->
 <!-- <input (change)= "changeSize()"type="number" style="margin: 10px;" placeholder="Глубина стойки" [(ngModel)]="billBoard.stoykaDepth"/> -->
 <div class="col-md-2">
-    <div class="form-group"> 
+    <div class="form-group">
         <label for="selectMaterial">Материал Билбоарда</label>
         <select class="form-control" (change)="changeMaterial()" [(ngModel)]="billBoard.material" name="selectMaterial" id="">
             <option value="metal1">
@@ -141,16 +141,16 @@
             </option>
         </select>
     </div>
-    <div class="form-group"> 
-        <label for="bilboardHeigth">Высота билборда(CM)</label> 
+    <div class="form-group">
+        <label for="bilboardHeigth">Высота билборда(CM)</label>
         <input class="form-control" (change)= "changeSize()"type="number" min="1" max="1000"  style="margin: 10px;" placeholder="Высота билборда" [(ngModel)]="billBoard.construction.bilboardHeigth"  />
     </div>
-    <div class="form-group"> 
-        <label for="bilboardWidth">Ширина билборда(CM)</label> 
+    <div class="form-group">
+        <label for="bilboardWidth">Ширина билборда(CM)</label>
         <input class="form-control" (change)= "changeSize()"type="number" min="1" max="1000"  style="margin: 10px;" placeholder="Ширина билбоарда" [(ngModel)]="billBoard.construction.bilboardWidth"/>
     </div>
-    <div class="form-group"> 
-        <label for="bilboardDepth">Глубина билборда(CM)</label> 
+    <div class="form-group">
+        <label for="bilboardDepth">Глубина билборда(CM)</label>
         <input class="form-control" (change)= "changeSize()"type="number" min="1" max="1000"  style="margin: 10px;" placeholder="Глубина билбоарда" [(ngModel)]="billBoard.construction.bilboardDepth"/>
     </div>
     <!-- <label for="stoykaCarcas">Каркас</label> -->
@@ -169,7 +169,7 @@
     <div>
         W = J<sub>y</sub> / y<sub>max</sub> = <b>{{billBoard.calculateW() }}</b>
     </div>
-    
+
     <div >
         <label for="">Площадь Щита:
             <b>{{billBoard.getBoardArea()}} м
@@ -178,16 +178,16 @@
         </label>
         <!-- <input disabled class="form-control" /> -->
     </div>
-    <div class="form-group"> 
+    <div class="form-group">
          <label for="">Густота воздуха(1.2кг/м <sup>3</sup>)</label>
         <input [(ngModel)]="billBoard.P"  class="form-control"/>
     </div>
-    <div class="form-group"> 
+    <div class="form-group">
         <label for="">Скорость ветра(М /C )</label>
         <input [(ngModel)]="billBoard.V" class="form-control"/>
     </div>
-    
-    
+
+
 </div>
 <div class="col-md-3">
     <div>
@@ -214,12 +214,12 @@
     </div>
     <div>
         f <span [ngStyle]="{'color': billBoard.styleForZnak() ? 'green' : 'red' }"> > </span>f<sub>кр</sub>
-    </div>    
-    <div class="form-group"> 
+    </div>
+    <div class="form-group">
         <label for="">Угол между нормалью до поверхности щита и скоростью ветра(градусы)</label>
         <input [(ngModel)]="billBoard.A" class="form-control"/>
-    </div> 
-    
+    </div>
+
 </div>
 </div>
 <!-- <button (click)="changeSize()">
@@ -227,4 +227,4 @@
 </button> -->
 
 <canvas #canvas (mousedown)="onMouseDown($event)" (mouseup)="onMouseUp($event)">
-</canvas> 
+</canvas>
