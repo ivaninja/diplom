@@ -12,7 +12,7 @@ export class AppComponent implements AfterViewInit {
   testImg = null
   @ViewChild(ToastUiImageEditorComponent) editorComponent: ToastUiImageEditorComponent;
   click(){
-    this.testImg = this.editorComponent.editorInstance._graphics.toDataURL({});
+    this.testImg = ((this.editorComponent.editorInstance) as any )._graphics.toDataURL({});
     console.log(); //   _canvas.toDataURL({}))
   }
   ngAfterViewInit() {
