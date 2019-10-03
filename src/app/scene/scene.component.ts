@@ -81,14 +81,12 @@ class BillBoard {
     );
   }
   getBoardMassa() {
-    console.log(this.materialP);
     this.materialP = 7850;
     return this.materialP * this.getBoardV();
   }
   getFkr() {
     const heighInM = this.construction.bilboardHeigth / 100;
     const widthInM = this.construction.bilboardWidth / 100;
-    console.log(this);
     return Number(((0.11 * this.V) / Math.max(heighInM, widthInM)).toFixed(2));
   }
   getF() {
@@ -132,7 +130,7 @@ class BillBoard {
     const sForSquareInMetre = sForSquare / 100;
     const sForRingInMetre = sForRing / 100;
     const PI = Math.PI;
-    console.log(this.typeOfStoyka);
+
     if (typeOfStoyka == "rectangle") {
       return Number((stoykaWidthInMetre ** 4 / 12).toFixed(2));
     }
@@ -215,10 +213,8 @@ export class SceneComponent implements AfterViewInit, OnChanges {
 
   @ViewChild("canvas") private canvasRef: ElementRef;
   ngOnChanges(changes: SimpleChanges) {
-    console.log(1)
     if (changes.src && changes.src.currentValue) {
       this.src = changes.src.currentValue;
-      console.log(2)
       this.changeMaterial();
     }
   }
@@ -322,9 +318,6 @@ export class SceneComponent implements AfterViewInit, OnChanges {
     const {
       billBoard: { typeOfStoyka }
     } = this;
-    console.log("--------------");
-    console.log(this.scene.children);
-    console.log("--------------");
     if (typeOfStoyka == "circle" || typeOfStoyka == "ring") {
       this.stoyka.visible = false;
       this.stoykaCylinder.visible = true;
@@ -334,7 +327,6 @@ export class SceneComponent implements AfterViewInit, OnChanges {
       this.stoykaCylinder.visible = false;
       // console.log(a);
     }
-    console.log(this.stoyka.geometry);
     const height = (this.stoyka.geometry as any).parameters.height;
     const width = (this.stoyka.geometry as any).parameters.width;
     const depth = (this.stoyka.geometry as any).parameters.depth;
@@ -428,7 +420,6 @@ export class SceneComponent implements AfterViewInit, OnChanges {
   /* EVENTS */
 
   public onMouseDown(event: MouseEvent) {
-    console.log("onMouseDown");
     event.preventDefault();
 
     // Example of mesh selection/pick:
@@ -440,12 +431,6 @@ export class SceneComponent implements AfterViewInit, OnChanges {
 
     var obj: THREE.Object3D[] = [];
     this.findAllObjects(obj, this.scene);
-    var intersects = raycaster.intersectObjects(obj);
-    console.log("Scene has " + obj.length + " objects");
-    console.log(intersects.length + " intersected objects found");
-    intersects.forEach(i => {
-      console.log(i.object); // do what you want to do with object
-    });
   }
 
   private findAllObjects(pred: THREE.Object3D[], parent: THREE.Object3D) {
@@ -459,16 +444,12 @@ export class SceneComponent implements AfterViewInit, OnChanges {
   }
 
   public onMouseUp(event: MouseEvent) {
-    console.log("onMouseUp");
   }
 
   @HostListener("window:resize", ["$event"])
   public onResize(event: Event) {
     this.canvas.style.width = "100%";
     this.canvas.style.height = "100%";
-    console.log(
-      "onResize: " + this.canvas.clientWidth + ", " + this.canvas.clientHeight
-    );
 
     this.camera.aspect = this.getAspectRatio();
     this.camera.updateProjectionMatrix();
@@ -478,7 +459,6 @@ export class SceneComponent implements AfterViewInit, OnChanges {
 
   @HostListener("document:keypress", ["$event"])
   public onKeyPress(event: KeyboardEvent) {
-    console.log("onKeyPress: " + event.key);
   }
   addPlane() {
     var planeGeometry = new THREE.PlaneGeometry(2000, 2000);

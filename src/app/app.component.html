@@ -1,20 +1,55 @@
-<select [(ngModel)]="appMode">
-  <option value="Designer">Designer</option>
-  <option value="Creator">Creator</option>
-</select>
-
-<div *ngIf="appMode == 'Designer'; then Designer; else Creator"></div>
-
-
-<ng-template #Designer>
-  <div class="btn btn-primary" (click)="showEditor =!showEditor">Toggle Editor</div>
-  <div [hidden]="!showEditor" style="height: 500px; width: 100%">
-    <tui-image-editor></tui-image-editor>
-
+<div class="container">
+  <div class="mode-row ">
+    <div
+      class="mode-btn"
+      (click)="appMode = 'Creator'"
+      [ngClass]="{ active: appMode != 'Designer' }"
+    >
+      Режим Проектирования
+    </div>
+    <div
+      class="mode-btn"
+      (click)="appMode = 'Designer'"
+      [ngClass]="{ active: appMode == 'Designer' }"
+    >
+      Для клиента
+    </div>
   </div>
-  <button (click)="click()">test click</button>
-  <scene   [src]="testImg" [withForm]='false'></scene>
-</ng-template>
-<ng-template #Creator>
-  <scene></scene>
-</ng-template>
+
+  <div *ngIf="appMode == 'Designer'; then Designer; else Creator"></div>
+
+  <ng-template #Designer>
+    <div class="mode-row">
+      <div
+        class="mode-btn"
+        (click)="designerMode = 'Edit'"
+        [ngClass]="{ active: designerMode != 'Billboard' }"
+      >
+        Редактировать
+      </div>
+      <div
+        class="mode-btn"
+        (click)="test()"
+        [ngClass]="{ active: designerMode == 'Billboard' }"
+      >
+        Показать на билбоарде
+      </div>
+    </div>
+
+    <div
+      [hidden]="designerMode == 'Billboard'"
+      style="height: 800px; width: 100%"
+    >
+      <tui-image-editor></tui-image-editor>
+    </div>
+    <!-- <button (click)="click()">test click</button> -->
+    <scene
+      [hidden]="designerMode == 'Edit'"
+      [src]="testImg"
+      [withForm]="false"
+    ></scene>
+  </ng-template>
+  <ng-template #Creator>
+    <scene></scene>
+  </ng-template>
+</div>
