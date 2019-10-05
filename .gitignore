@@ -7,7 +7,7 @@
 
 # dependencies
 /node_modules/*
-!/node_modules/ngx-tui-image-editor
+# !/node_modules/ngx-tui-image-editor
 # /node_modules/ngx-tui-image-editor/*
 # !/node_modules/ngx-tui-image-editor
 # /node_modules/ngx-tui-image-editor/fesm2015/*
