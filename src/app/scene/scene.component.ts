@@ -162,19 +162,30 @@ class BillBoard {
   calculateSigma() {
     return Number((this.calculateMoment() / this.calculateW()).toFixed(2));
   }
-  constructor(
+  constructor({
     StoykaWidth,
     StoykaHeight,
     StoykaDepth,
     BilboardWidth,
     BilboardHeigth,
-    BilboardDepth
-  ) {
-    this.typeOfStoyka = "rectangle";
-    this.construction = new Construction(200, 1000, 200, 600, 200, 50);
-    this.material = "metal1";
-    this.floorMaterial = "floor1";
-    this.logo = "logo";
+    BilboardDepth,
+    typeOfStoyka,
+    material,
+    floorMaterial,
+    logo,
+  }) {
+    this.typeOfStoyka = typeOfStoyka;
+    this.construction = new Construction(
+      StoykaWidth,
+      StoykaHeight,
+      StoykaDepth,
+      BilboardWidth,
+      BilboardHeigth,
+      BilboardDepth
+    );
+    this.material = material;
+    this.floorMaterial = floorMaterial;
+    this.logo = logo;
     this.materialP = 7850;
     this.materiealE = 2.1 * 10 ** 11;
     // this.calculation = new Calculation(1.2, 10, this.getBoardArea(), 45);
@@ -193,7 +204,18 @@ class BillBoard {
 export class SceneComponent implements AfterViewInit, OnChanges {
   @Input() withForm: boolean = true;
   @Input() src: any = {};
-
+  @Input() billboardConfig: any = {
+    StoykaWidth: 200,
+    StoykaHeight: 1000,
+    StoykaDepth: 200,
+    BilboardWidth: 600,
+    BilboardHeigth: 200,
+    BilboardDepth: 50,
+    typeOfStoyka: "rectangle",
+    material: "carcas",
+    floorMaterial: "floor1",
+    logo: "logo"
+  };
   private renderer: THREE.WebGLRenderer;
   private camera: THREE.PerspectiveCamera;
   private cameraTarget: THREE.Vector3;
@@ -213,6 +235,14 @@ export class SceneComponent implements AfterViewInit, OnChanges {
 
   @ViewChild("canvas") private canvasRef: ElementRef;
   ngOnChanges(changes: SimpleChanges) {
+    if(changes.billboardConfig && changes.billboardConfig.currentValue){
+      console.log(changes.billboardConfig.currentValue);
+      this.billBoard = new BillBoard(changes.billboardConfig.currentValue);
+      console.log(this.billBoard)
+      this.changeMaterial();
+      // this.changeFloor();
+      this.changeSize();
+    }
     if (changes.src && changes.src.currentValue) {
       this.src = changes.src.currentValue;
       this.changeMaterial();
@@ -220,8 +250,9 @@ export class SceneComponent implements AfterViewInit, OnChanges {
   }
   constructor() {
     this.render = this.render.bind(this);
-    this.billBoard = new BillBoard(200, 1000, 200, 600, 200, 50);
-    // this.fWind = new Fwind(1.2,10,this.billBoard.getBoardArea(),45);
+    this.billboardConfig;
+    console.log(this.billboardConfig);
+    this.billBoard = new BillBoard(this.billboardConfig);
     this.onModelLoadingCompleted = this.onModelLoadingCompleted.bind(this);
   }
 
@@ -331,7 +362,7 @@ export class SceneComponent implements AfterViewInit, OnChanges {
     const width = (this.stoyka.geometry as any).parameters.width;
     const depth = (this.stoyka.geometry as any).parameters.depth;
     // this.stoyka.geometry.parameters;
-    (this.stoyka
+    console.log(this.billBoard.construction.stoykaHeight)(this.stoyka
       .geometry as any).parameters.height = this.billBoard.construction.stoykaHeight;
     (this.stoyka
       .geometry as any).parameters.width = this.billBoard.construction.stoykaWidth;
@@ -443,8 +474,7 @@ export class SceneComponent implements AfterViewInit, OnChanges {
     }
   }
 
-  public onMouseUp(event: MouseEvent) {
-  }
+  public onMouseUp(event: MouseEvent) {}
 
   @HostListener("window:resize", ["$event"])
   public onResize(event: Event) {
@@ -458,8 +488,7 @@ export class SceneComponent implements AfterViewInit, OnChanges {
   }
 
   @HostListener("document:keypress", ["$event"])
-  public onKeyPress(event: KeyboardEvent) {
-  }
+  public onKeyPress(event: KeyboardEvent) {}
   addPlane() {
     var planeGeometry = new THREE.PlaneGeometry(2000, 2000);
     var planeMaterial = new THREE.MeshBasicMaterial({ color: 0xcccccc });
@@ -470,13 +499,6 @@ export class SceneComponent implements AfterViewInit, OnChanges {
     plane.position.z = 0;
     this.Floor = plane;
     this.scene.add(plane);
-  }
-  addCube() {
-    // var geometry = new THREE.BoxGeometry( 100, 20, 1 );
-    // var material = new THREE.MeshBasicMaterial( {color: 0x00ff00, wireframe: true} );
-    // var cube = new THREE.Mesh( geometry, material );
-    // cube.position.set(0,100,1);
-    // this.scene.add( cube );
   }
   addStoyka() {
     const {
@@ -575,11 +597,11 @@ export class SceneComponent implements AfterViewInit, OnChanges {
         materialArray.push(material);
         materialArray.push(material);
         materialArray.push(material);
-        console.log(this.src)
+        console.log(this.src);
         materialArray.push(
           new THREE.MeshBasicMaterial({
             map: THREE.ImageUtils.loadTexture(
-              this.src ||  `assets/${this.billBoard.logo}.jpg`,
+              this.src || `assets/${this.billBoard.logo}.jpg`,
               null,
               () => {
                 this.render();

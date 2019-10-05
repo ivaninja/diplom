@@ -3,8 +3,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { SceneComponent } from "./scene/scene.component";
-import { ToastUiImageEditorModule } from "ngx-tui-image-editor";
-
+import { ToastUiImageEditorModule } from "../../src/toast-ui-image-editor/src/lib/toast-ui-image-editor.module";
+// import { ToastUiImageEditorModule } from "toast-ui-image-editor";
 
 @NgModule({
   declarations: [

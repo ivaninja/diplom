@@ -8,6 +8,8 @@
     "module": "esnext", // add this line
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop":true,
     "experimentalDecorators": true,
     "importHelpers": true,
     "target": "es2017",// add this line
