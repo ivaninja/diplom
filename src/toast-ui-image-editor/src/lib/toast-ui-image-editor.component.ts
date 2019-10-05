@@ -67,7 +67,7 @@ export class ToastUiImageEditorComponent implements AfterViewInit, OnDestroy {
   @Output() textEditing = new EventEmitter<void>();
   @Output() undoStackChanged = new EventEmitter<number>();
 
-  @ViewChild('imageEditor', { static: true }) editorRef: ElementRef;
+  @ViewChild('imageEditor') editorRef: ElementRef;
 
   editorInstance: ImageEditor;
 

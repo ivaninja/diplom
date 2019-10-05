@@ -33,6 +33,7 @@
     "three-stlexporter": "^1.0.0",
     "threejs-export-stl": "0.0.4",
     "tslib": "^1.9.0",
+    "tui-image-editor": "^3.7.0",
     "typescript": "3.4.2",
     "zone.js": "^0.8.4"
   },

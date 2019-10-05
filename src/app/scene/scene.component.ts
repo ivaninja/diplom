@@ -362,7 +362,7 @@ export class SceneComponent implements AfterViewInit, OnChanges {
     const width = (this.stoyka.geometry as any).parameters.width;
     const depth = (this.stoyka.geometry as any).parameters.depth;
     // this.stoyka.geometry.parameters;
-    console.log(this.billBoard.construction.stoykaHeight)(this.stoyka
+   (this.stoyka
       .geometry as any).parameters.height = this.billBoard.construction.stoykaHeight;
     (this.stoyka
       .geometry as any).parameters.width = this.billBoard.construction.stoykaWidth;
