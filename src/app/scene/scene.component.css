@@ -6,3 +6,6 @@ canvas {
 *{
     color: white;
 }
+input,select, option{
+  color: black;
+}
